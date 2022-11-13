@@ -11,6 +11,11 @@ pipeline {
                 sh 'npm install'
             }
         }
+		stage('OWASP Dependency-Check') {
+			steps {
+				dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'Default'
+			}
+		}
         stage('Test') {
 			steps {
                 sh './jenkins/scripts/test.sh'
@@ -23,10 +28,5 @@ pipeline {
                 sh './jenkins/scripts/kill.sh'
             }
         }
-		stage('OWASP Dependency-Check') {
-			steps {
-				dependencyCheck odcInstallation: 'Default'
-			}
-		}
     }
 }
