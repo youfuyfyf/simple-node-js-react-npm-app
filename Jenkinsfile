@@ -6,16 +6,16 @@ pipeline {
 		}
 	}
     stages {
+		stage('OWASP DependencyCheck') {
+			steps {
+				dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'Default'
+			}	
+		}
         stage('Build') {
 			steps {
                 sh 'npm install'
             }
         }
-		stage('OWASP Dependency-Check') {
-			steps {
-				dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'Default'
-			}
-		}
         stage('Test') {
 			steps {
                 sh './jenkins/scripts/test.sh'
