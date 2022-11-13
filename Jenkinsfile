@@ -1,12 +1,6 @@
 pipeline {
 	agent none
     stages {
-		stage('OWASP DependencyCheck') {
-			agent any
-			steps {
-				dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'Default'
-			}	
-		}
         stage('Build') {
 			agent {
 				docker {
@@ -42,5 +36,11 @@ pipeline {
                 sh './jenkins/scripts/kill.sh'
             }
         }
+		stage('OWASP DependencyCheck') {
+			agent any
+			steps {
+				dependencyCheck additionalArguments: '--format HTML --format XML', odcInstallation: 'Default'
+			}	
+		}
     }
 }
